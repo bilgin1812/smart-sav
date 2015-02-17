@@ -1,0 +1,5 @@
+# Messages
+
+savs.list.title={0,choice,0#No savs|1#1 sav|1<{0,number,integer} savs} trouvé(s)
+
+

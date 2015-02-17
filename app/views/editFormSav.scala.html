@@ -1,0 +1,32 @@
+@(id: Long, savForm: Form[Sav])
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.render) } 
+
+@main {
+    
+    <h1>Modifier la demande</h1>
+    
+    @form(routes.Application.updateSAV(id)) {
+        
+        <fieldset>
+        
+            @inputText(savForm("message"), '_label -> "Message", '_help -> "")
+            @inputText(savForm("souhait"), '_label -> "Souhait", '_help -> "")
+
+        
+        </fieldset>
+        
+        <div class="actions">
+            <input type="submit" value="Enregistrer la demande" class="btn primary"> ou 
+            <a href="@routes.Application.listSAV()" class="btn">Annuler</a> 
+        </div>
+        
+    }
+    
+    @form(routes.Application.deleteSAV(id), 'class -> "topRight") {
+        <input type="submit" value="Supprimer la demande" class="btn danger">
+    }
+    
+}

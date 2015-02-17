@@ -1,0 +1,152 @@
+@(currentPage: com.avaje.ebean.Page[Sav], currentSortBy: String, currentOrder: String, currentFilter: String)
+
+@****************************************
+* Helper generating navigation links    *
+****************************************@
+@link(newPage:Int, newSortBy:String) = @{
+    
+    var sortBy = currentSortBy
+    var order = currentOrder
+    
+    if(newSortBy != null) {
+        sortBy = newSortBy
+        if(currentSortBy == newSortBy) {
+            if(currentOrder == "asc") {
+                order = "desc"
+            } else {
+                order = "asc"
+            }
+        } else {
+            order = "asc"
+        }
+    }
+    
+    // Generate the link
+    routes.Application.listSAV(newPage, sortBy, order, currentFilter)
+    
+}
+
+@**********************************
+* Helper generating table headers *
+***********************************@
+@header(key:String, title:String) = {
+    <th class="@key.replace(".","_") header @if(currentSortBy == key) @{if(currentOrder == "asc") "headerSortDown" else "headerSortUp"}">
+        <a href="@link(0, key)">@title</a>
+    </th>
+}
+
+@main {
+    
+   <h1 id="homeTitle">@Messages("savs.list.title", currentPage.getTotalRowCount)</h1>
+
+    @if(flash.containsKey("success")) {
+        <div class="alert-message warning">
+            <strong>Login!</strong> @flash.get("success")
+        </div>
+    } 
+
+    <div id="actions">
+        
+        <form action="@link(0, "message")" method="GET">
+            <input type="search" id="searchbox" name="f" value="@currentFilter" placeholder="Filter by message ...">
+            <input type="submit" id="searchsubmit" value="Filter by message" class="btn primary">
+        </form>
+        
+        <a class="btn success" id="add" href="@routes.Application.createSAV()">Ajouter une demande!</a>
+        
+    </div>
+    
+    @if(currentPage.getTotalRowCount == 0) {
+        
+        <div class="well">
+            <em>Nothing to display</em>
+        </div>
+        
+    } else {
+        
+
+        
+        <table class="computers zebra-striped">
+            <thead>
+                <tr>
+                     @header("id", "Id")
+                     @header("date_recu", "Date recu")
+                     @header("message", "Message")
+                     @header("souhait", "Souhait")
+                     @header("user", "Client")
+                   
+
+                </tr>
+            </thead>
+            <tbody>
+
+                @for(Sav <- currentPage.getList) {
+                    <tr>
+                        <td><a href="@routes.Application.editSAV(Sav.id)">@Sav.id</a></td>
+                        <td>
+                            @if(Sav.date_recu == null) {
+                                <em>-</em>
+                            } else {
+                                @Sav.date_recu.format("dd MMM yyyy")
+                            }
+                        </td>
+                                                <td>
+                            @if(Sav.message == null) {
+                                <em>-</em>
+                            } else {
+                                @Sav.message
+                            }
+                        </td>
+                                                <td>
+                            @if(Sav.souhait == null) {
+                                <em>-</em>
+                            } else {
+                                @Sav.souhait
+                            }
+                        </td>
+                        
+
+                                                <td>
+                            @if(Sav.user == null) {
+                                <em>-</em>
+                            } else {
+                                @Sav.user.email
+                            }
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+
+        <div id="pagination" class="pagination">
+            <ul>
+                @if(currentPage.hasPrev) {
+                    <li class="prev">
+                        <a href="@link(currentPage.getPageIndex - 1, null)">&larr; Previous</a>
+                    </li>
+                } else {
+                    <li class="prev disabled">
+                        <a>&larr; Previous</a>
+                    </li>
+                }
+                <li class="current">
+                    <a>Displaying @currentPage.getDisplayXtoYofZ(" to "," of ")</a>
+                </li>
+                @if(currentPage.hasNext) {
+                    <li class="next">
+                        <a href="@link(currentPage.getPageIndex + 1, null)">Next &rarr;</a>
+                    </li>
+                } else {
+                    <li class="next disabled">
+                        <a>Next &rarr;</a>
+                    </li>
+                }
+            </ul>
+        </div>
+        
+    }
+        
+}
+
+            

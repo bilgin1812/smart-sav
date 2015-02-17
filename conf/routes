@@ -1,0 +1,43 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Default path will just redirect to the computer list
+GET     /                           controllers.Application.index()
+
+#login
+POST   /testLogin        		controllers.Application.testLogin()
+
+##### TO DO   add routes in controller
+
+# sav list (look at the default values for pagination parameters)
+GET     /savs                  controllers.Application.listSAV(p:Int ?= 0, s ?= "message", o ?= "asc", f ?= "")
+
+# Add sav
+GET     /savs/new              controllers.Application.createSAV()
+POST    /savs                  controllers.Application.saveSAV()
+
+# Edit existing sav
+GET     /savs/:id              controllers.Application.editSAV(id:Long)
+POST    /savs/:id              controllers.Application.updateSAV(id:Long)
+
+# Delete a sav
+POST    /savs/:id/delete       controllers.Application.deleteSAV(id:Long)
+################################################################################""
+# Computers list (look at the default values for pagination parameters)
+GET     /computers                  controllers.Application.list(p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")
+
+# Add computer
+GET     /computers/new              controllers.Application.create()
+POST    /computers                  controllers.Application.save()
+
+# Edit existing computer
+GET     /computers/:id              controllers.Application.edit(id:Long)
+POST    /computers/:id              controllers.Application.update(id:Long)
+
+# Delete a computer
+POST    /computers/:id/delete       controllers.Application.delete(id:Long)
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.at(path="/public", file)
+
