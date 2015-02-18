@@ -6,6 +6,7 @@ import java.util.*;
 import javax.persistence.*;
 
 import play.db.ebean.*;
+import play.db.ebean.Model.Finder;
 import play.data.format.*;
 import play.data.validation.*;
 import play.data.validation.Constraints.Required;
@@ -85,13 +86,23 @@ public class User0 extends Model {
         this.fullname = fullname;
     }
     
-    public static User0 connect(String email, String password) {
-        return (User0) find("byEmailAndPassword", email, password);
+    public static boolean validate(String email, String password) {
+    	
+    
+        for(User0 u:  User0.find.findList()) {
+        	if(u.email.equals(email) && u.password.equals(password))
+        		return true;
+           
+        }
+        return false;
+        
+    }
+    public static  List<User0> findAll(){
+        return  User0.find.findList();  
     }
 
-	private static Object find(String string, String email2, String password2) {
-		// TODO Auto-generated method stub
-		return null;
-	}
- 
+	 /**
+     * Generic query helper for entity Computer with id Long
+     */
+    public static Finder<Long,User0> find = new Finder<Long,User0>(Long.class, User0.class); 
 }

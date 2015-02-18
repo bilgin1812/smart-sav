@@ -12,14 +12,20 @@
     
      @if(flash.containsKey("success")) {
         <div class="alert-message warning">
-            <strong>Login!</strong> @flash.get("success")
+            <h3><strong>Login!</strong> @flash.get("success")</h3>
+        </div>
+    } 
+    
+     @if(flash.containsKey("info")) {
+        <div class="alert-message warning">
+         <h2>   <strong>Erreur!</strong> @flash.get("info")</h2>
         </div>
     } 
         
         <fieldset>
         
-            @inputText(loginForm("email"), '_label -> "email", '_help -> "")      
-            @inputText(loginForm("password"),'_label -> "password", '_help -> "login")
+            @inputText(loginForm("email"), '_label -> "email", '_help -> "email utilisé pour SAV")      
+            @inputText(loginForm("password"),'_label -> "password", '_help -> "mot de passe livré par SAV")
                     
         </fieldset>
         

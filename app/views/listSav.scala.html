@@ -59,7 +59,7 @@
     @if(currentPage.getTotalRowCount == 0) {
         
         <div class="well">
-            <em>Nothing to display</em>
+            <em>Rien à afficher </em>
         </div>
         
     } else {
@@ -123,11 +123,11 @@
             <ul>
                 @if(currentPage.hasPrev) {
                     <li class="prev">
-                        <a href="@link(currentPage.getPageIndex - 1, null)">&larr; Previous</a>
+                        <a href="@link(currentPage.getPageIndex - 1, null)">&larr;  Précedent</a>
                     </li>
                 } else {
                     <li class="prev disabled">
-                        <a>&larr; Previous</a>
+                        <a>&larr; Précedent</a>
                     </li>
                 }
                 <li class="current">
@@ -135,11 +135,11 @@
                 </li>
                 @if(currentPage.hasNext) {
                     <li class="next">
-                        <a href="@link(currentPage.getPageIndex + 1, null)">Next &rarr;</a>
+                        <a href="@link(currentPage.getPageIndex + 1, null)">Suivant &rarr;</a>
                     </li>
                 } else {
                     <li class="next disabled">
-                        <a>Next &rarr;</a>
+                        <a>Suivant &rarr;</a>
                     </li>
                 }
             </ul>

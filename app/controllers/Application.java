@@ -7,7 +7,7 @@ import views.html.*;
 import models.*;
 
 /**
- * Manage a database of computers
+ * Manage a database of application
  */
 public class Application extends Controller {
     
@@ -32,22 +32,42 @@ public class Application extends Controller {
      */
     public static Result testLogin() {
         Form<User0> userForm = form(User0.class).bindFromRequest();
-        /*  
-         * TODO test user avec BD
-         * 
-         */
+
         if(userForm.hasErrors()) {
         	flash("success", "email ou mot de passe n'est pas valide!");
-           // return badRequest("non authorisé");
+           // return badRequest("Non Autorisé");
             Form<User0> userForm1 = form(User0.class);
             return ok(
               loginForm.render(userForm1)
             );
         }
-        flash("succes","OK");
+        /*  
+         * TODO test user avec BD
+         * 
+         */
+        //userForm
+        
+       if(User0.validate(userForm.get().email, userForm.get().password) ){
+        
         session("connected user",userForm.get().email);
         flash("success", "user " + userForm.get().email + "connected");
-        return GO_HOME;
+        if(!userForm.get().isIs_admin())
+        	return GO_HOME;
+        else
+        {
+        	return GO_HOME;
+        }
+       }
+       
+       else 
+       {
+        
+    	   flash("info","Résultat login email ou mot de passe n'est pas valide! "+userForm.get().email+"--"+ userForm.get().password);
+            Form<User0> userForm1 = form(User0.class);
+            return ok(
+              loginForm.render(userForm1)
+            );
+       }
     }
     
     
@@ -102,7 +122,7 @@ public class Application extends Controller {
     }
     
     /**
-     * Display the 'new computer form'.
+     * Display the 'new SAV form'.
      */
     public static Result createSAV() {
         Form<Sav> savForm = form(Sav.class);
@@ -120,12 +140,12 @@ public class Application extends Controller {
             return badRequest(createFormSav.render(savForm));
         }
         savForm.get().save();
-        flash("success", "Computer " + savForm.get().message + " has been created");
+        flash("success", "SAV : " + savForm.get().message + " crée.");
         return GO_HOME;
     }
     
     /**
-     * Handle computer deletion
+     * Handle sav deletion
      */
     public static Result deleteSAV(Long id) {
         Sav.find.ref(id).delete();

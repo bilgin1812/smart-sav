@@ -1,6 +1,6 @@
 name := """SAV-database-java"""
 
-version := "0.0.1-SNAPSHOT"
+version := "0.0.1"
 
 scalaVersion := "2.11.4"
 
@@ -12,3 +12,4 @@ libraryDependencies ++= Seq(
 )     
 
 lazy val root = (project in file(".")).enablePlugins(PlayJava)
+libraryDependencies += "mysql" % "mysql-connector-java" % "5.1.27"
